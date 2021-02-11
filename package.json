@@ -1,6 +1,24 @@
 {
-  "name": "CSC3916_HW2",
+  "name": "csc3916_hw2",
   "version": "1.0.0",
+  "description": "Web API 3916 Homework 2",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jmansito/CSC3916_HW2.git"
+  },
+  "keywords": [
+    "Movie"
+  ],
+  "author": "Josh Mansito",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Jmansito/CSC3916_HW2/issues"
+  },
+  "homepage": "https://github.com/Jmansito/CSC3916_HW2#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",

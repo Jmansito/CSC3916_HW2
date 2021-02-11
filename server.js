@@ -12,87 +12,87 @@ var authController = require('./auth');
 var authJwtController = require('./auth_jwt');
 db = require('./db')(); //hack
 var jwt = require('jsonwebtoken');
-var cors = require('core');
+var cors = require('cors');
 
 var app = express();
 app.use(cors());
-app.use(bodyParse.json());
-app.use(bodyParser.urlencoded({ extended: false}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(passport.initialize());
 
 var router = express.Router();
 
-function getJSONObjectForMovieRequirement(req){
+function getJSONObjectForMovieRequirement(req) {
     var json = {
         headers: "No headers",
         key: process.env.UNIQUE_KEY,
         body: "No body"
     };
 
-    if(req.body != null){
+    if (req.body != null) {
         json.body = req.body;
     }
 
-    if(req.headers != null){
+    if (req.headers != null) {
         json.headers = req.headers;
     }
+
     return json;
 }
 
-router.post('./singup', function(req, res){
+router.post('/signup', function(req, res) {
     if (!req.body.username || !req.body.password) {
-        res.json({success:false, msg:'Please include both username and password to signup'})
+        res.json({success: false, msg: 'Please include both username and password to signup.'})
     } else {
         var newUser = {
             username: req.body.username,
             password: req.body.password
         };
-        db.save(newUser); //no duplicate checking
-        res.json({success:true, msg:'Successful created new user.'})
-    }
-    });
 
-router.post('/signin', function (req, res){
+        db.save(newUser); //no duplicate checking
+        res.json({success: true, msg: 'Successfully created new user.'})
+    }
+});
+
+router.post('/signin', function (req, res) {
     var user = db.findOne(req.body.username);
 
-    if(!user) {
-        res.status(401).send({success:false, msg: 'Authentication failed. User not found.'});
+    if (!user) {
+        res.status(401).send({success: false, msg: 'Authentication failed. User not found.'});
     } else {
-        if(req.body.password == user.password){
-            var userToken = { id: user.id, username: user.username};
+        if (req.body.password == user.password) {
+            var userToken = { id: user.id, username: user.username };
             var token = jwt.sign(userToken, process.env.SECRET_KEY);
-            res.json({success:true, token: 'JWT ' + token});
+            res.json ({success: true, token: 'JWT ' + token});
         }
         else {
-            res.status(401).send({success:false, msg: 'Authentication failed. User not found.'});
+            res.status(401).send({success: false, msg: 'Authentication failed.'});
         }
     }
 });
 
 router.route('/testcollection')
-    .delete(authController.isAuthenticated, function(req, res){
-        console.log(req.body);
-        res = res.status(200);
-        if (req.get('Content-Type')){
-            res = res.type(req.get('Content-Type'));
+    .delete(authController.isAuthenticated, function(req, res) {
+            console.log(req.body);
+            res = res.status(200);
+            if (req.get('Content-Type')) {
+                res = res.type(req.get('Content-Type'));
+            }
+            var o = getJSONObjectForMovieRequirement(req);
+            res.json(o);
         }
-        var o = getJSONObjectForMovieRequirement(req);
-        res.json(o);
-    }
     )
     .put(authJwtController.isAuthenticated, function(req, res) {
-        console.log(req.body);
-        res = res.status(200);
-        if (req.get('Content-Type')) {
-            res = res.type(req.get('Content-Type'));
+            console.log(req.body);
+            res = res.status(200);
+            if (req.get('Content-Type')) {
+                res = res.type(req.get('Content-Type'));
+            }
+            var o = getJSONObjectForMovieRequirement(req);
+            res.json(o);
         }
-        var o = getJSONObjectForMovieRequirement(req);
-        res.json(o);
-    });
-//    .post()
-//    .get()
-
+    );
 
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
