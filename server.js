@@ -45,7 +45,7 @@ router.post('/signup', function(req, res) {
     if (!req.body.username || !req.body.password) {
         res.json({success: false, msg: 'Please include both username and password to signup.'})
     } else {
-        var newUser = {
+        let newUser = {
             username: req.body.username,
             password: req.body.password
         };
@@ -56,14 +56,14 @@ router.post('/signup', function(req, res) {
 });
 
 router.post('/signin', function (req, res) {
-    var user = db.findOne(req.body.username);
+    let user = db.findOne(req.body.username);
 
     if (!user) {
         res.status(401).send({success: false, msg: 'Authentication failed. User not found.'});
     } else {
-        if (req.body.password == user.password) {
-            var userToken = { id: user.id, username: user.username };
-            var token = jwt.sign(userToken, process.env.SECRET_KEY);
+        if (req.body.password === user.password) {
+            let userToken = { id: user.id, username: user.username };
+            let token = jwt.sign(userToken, process.env.SECRET_KEY);
             res.json ({success: true, token: 'JWT ' + token});
         }
         else {
@@ -72,14 +72,27 @@ router.post('/signin', function (req, res) {
     }
 });
 
-router.route('/testcollection')
+router.route('/movies')
+
+    .get(function(req, res) {
+            //Functions for getting the list of movies or single movie from .db functions will go here
+            //Instructions were to just send the status code and message, video example showed movie titles being sent from postman
+            //Were we suppose to include the functions in the hw or is that coming in future assignments?
+            res.status(200).send({success: true, msg: 'GET movies'});
+        }
+    )
+    .post(function(req, res) {
+        //Functions for saving movie from .db will go here
+        res.status(200).send({success: true, msg: 'movie saved'});
+        }
+    )
     .delete(authController.isAuthenticated, function(req, res) {
             console.log(req.body);
             res = res.status(200);
             if (req.get('Content-Type')) {
                 res = res.type(req.get('Content-Type'));
             }
-            var o = getJSONObjectForMovieRequirement(req);
+            let o = getJSONObjectForMovieRequirement(req);
             res.json(o);
         }
     )
@@ -89,7 +102,7 @@ router.route('/testcollection')
             if (req.get('Content-Type')) {
                 res = res.type(req.get('Content-Type'));
             }
-            var o = getJSONObjectForMovieRequirement(req);
+            let o = getJSONObjectForMovieRequirement(req);
             res.json(o);
         }
     );
