@@ -15,9 +15,9 @@ let login_details = {
 }
 
 describe('Register, Login and Call Test Collection with Basic Auth and JWT Auth', () => {
-    beforeEach((done) => { //Before each test initialize the database to empty
-        db.userList = [];
-        done();
+   beforeEach((done) => { //Before each test initialize the database to empty
+       db.userList = [];
+       done();
     })
 
     after((done) => { //after this test suite empty the database
@@ -28,47 +28,47 @@ describe('Register, Login and Call Test Collection with Basic Auth and JWT Auth'
     //Test the GET route
     describe('/signup', () => {
         it('it should register, login and check our token', (done) => {
-            chai.request(server)
-                .post('/signup')
-                .send(login_details)
-                .end((err, res) =>{
-                    res.should.have.status(200);
-                    res.body.success.should.be.eql(true);
-                    //follow-up to get the JWT token
-                    chai.request(server)
-                        .post('/signin')
-                        .send(login_details)
-                        .end((err, res) => {
-                            res.should.have.status(200);
-                            res.body.should.have.property('token');
+          chai.request(server)
+              .post('/signup')
+              .send(login_details)
+              .end((err, res) =>{
+                res.should.have.status(200);
+                res.body.success.should.be.eql(true);
+                //follow-up to get the JWT token
+                chai.request(server)
+                    .post('/signin')
+                    .send(login_details)
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.have.property('token');
 
-                            let token = res.body.token;
-                            //console.log('got token ' + token)
-                            //lets call a protected API
-                            chai.request(server)
-                                .put('/testcollection')
-                                .set('Authorization', token)
-                                .send({echo: ''})
-                                .end((err, res) => {
-                                    res.should.have.status(200);
-                                    res.body.body.should.have.property('echo');
-                                    done();
-                                })
-                        })
-                })
+                        let token = res.body.token;
+                        //console.log('got token ' + token)
+                        //lets call a protected API
+                        chai.request(server)
+                            .put('/testcollection')
+                            .set('Authorization', token)
+                            .send({echo: ''})
+                            .end((err, res) => {
+                                res.should.have.status(200);
+                                res.body.body.should.have.property('echo');
+                                done();
+                            })
+                    })
+              })
         })
     });
 
-    describe('/testcollection fail auth', () => {
-        it('delete requires basic auth failed login', (done) => {
-            chai.request(server)
-                .delete('/testcollection')
-                .auth('cu_user', 'cu_rulez1')
-                .send({ echo: '' })
-                .end((err, res) => {
-                    res.should.have.status(401);
-                    done();
-                })
-        });
-    });
+   describe('/testcollection fail auth', () => {
+      it('delete requires basic auth failed login', (done) => {
+          chai.request(server)
+              .delete('/testcollection')
+              .auth('cu_user', 'cu_rulez1')
+              .send({ echo: '' })
+              .end((err, res) => {
+                  res.should.have.status(401);
+                  done();
+              })
+      });
+   });
 });
