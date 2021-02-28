@@ -84,6 +84,7 @@ router.route('/movies')
         res = res.status(200);
         if (req.get('Content-Type')) {
             res = res.type(req.get('Content-Type'));
+            res.status(200).send({success: true, msg: 'movie deleted'});
         }
         var o = getJSONObjectForMovieRequirement(req);
         res.json(o);
@@ -98,8 +99,9 @@ router.route('/movies')
         }
         var o = getJSONObjectForMovieRequirement(req);
         res.json(o);
-    }
-    );
+    });
+
+//I could not find a good way to send a specific error message for all the method requests we don't accept.
 
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
