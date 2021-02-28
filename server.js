@@ -61,7 +61,7 @@ router.post('/signin', function (req, res) {
     if (!user) {
         res.status(401).send({success: false, msg: 'Authentication failed. User not found.'});
     } else {
-        if (req.body.password == user.password) {
+        if (req.body.password === user.password) {
             var userToken = { id: user.id, username: user.username };
             var token = jwt.sign(userToken, process.env.SECRET_KEY);
             res.json ({success: true, token: 'JWT ' + token});
@@ -94,7 +94,7 @@ router.route('/testcollection')
     }
     );
 
-app.use('/', router);
+app.use('/Users/mansito/WebstormProjects/CSC3916_HW2', router);
 app.listen(process.env.PORT || 8080);
 module.exports = app; // for testing only
 
