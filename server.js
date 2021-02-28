@@ -81,11 +81,11 @@ router.route('/movies')
    //         res.status(200).send({success: true, msg: 'GET movies'});
   //      }
   //  )
-    .post(function(req, res) {
+  //  .post(function(req, res) {
         //Functions for saving movie from .db will go here
-        res.status(200).send({success: true, msg: 'movie saved'});
-        }
-    )
+   //     res.status(200).send({success: true, msg: 'movie saved'});
+  //      }
+  //  )
     .delete(authController.isAuthenticated, function(req, res) {
             console.log(req.body);
             res = res.status(200);
