@@ -72,7 +72,7 @@ router.post('/signin', function (req, res) {
     }
 });
 
-router.route('/testcollection')
+router.route('/movies')
 
     .get(function(req, res) {
             //Functions for getting the list of movies or single movie from .db functions will go here
@@ -109,3 +109,6 @@ router.route('/testcollection')
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
 module.exports = app; // for testing only
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('client/build'));
+}
