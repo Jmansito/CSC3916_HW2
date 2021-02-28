@@ -74,13 +74,13 @@ router.post('/signin', function (req, res) {
 
 router.route('/movies')
 
-    .get(function(req, res) {
+ //   .get(function(req, res) {
             //Functions for getting the list of movies or single movie from .db functions will go here
             //Instructions were to just send the status code and message, video example showed movie titles being sent from postman
             //Were we suppose to include the functions in the hw or is that coming in future assignments?
-            res.status(200).send({success: true, msg: 'GET movies'});
-        }
-    )
+   //         res.status(200).send({success: true, msg: 'GET movies'});
+  //      }
+  //  )
     .post(function(req, res) {
         //Functions for saving movie from .db will go here
         res.status(200).send({success: true, msg: 'movie saved'});
@@ -109,6 +109,4 @@ router.route('/movies')
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
 module.exports = app; // for testing only
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('client/build'));
-}
+
