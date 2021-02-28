@@ -22,6 +22,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 
 var router = express.Router();
+var distDir = __dirname + "/Users/mansito/WebstormProjects/CSC3916_HW2";
+app.use(express.static(distDir));
 
 function getJSONObjectForMovieRequirement(req) {
     var json = {
