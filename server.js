@@ -72,7 +72,7 @@ router.post('/signin', function (req, res) {
     }
 });
 
-router.route('/movies')
+router.route('/testcollection')
 
     .get(function(req, res) {
             //Functions for getting the list of movies or single movie from .db functions will go here
