@@ -4,7 +4,7 @@
   "description": "Web API 3916 Homework 2",
   "main": "server.js",
   "scripts": {
-    "test": "mocha --timeout 10000 --exit"
+    "test": "mocha --timeout 100000 --exit"
   },
   "repository": {
     "type": "git",
@@ -13,7 +13,7 @@
   "keywords": [
     "Movie"
   ],
-  "author": "Shawn McCarthy",
+  "author": "Josh Mansito",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Jmansito/CSC3916_HW2/issues"
