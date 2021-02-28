@@ -72,7 +72,13 @@ router.post('/signin', function (req, res) {
     }
 });
 
-router.route('/testcollection')
+router.route('/movies')
+    .get(function (req, res){
+        res.status(200).send({success: true, msg: 'GET movies'});
+    })
+    .post(function (req, res){
+        res.status(200).send({success: true, msg: 'movie saved'});
+    })
     .delete(authController.isAuthenticated, function(req, res) {
         console.log(req.body);
         res = res.status(200);
@@ -88,6 +94,7 @@ router.route('/testcollection')
         res = res.status(200);
         if (req.get('Content-Type')) {
             res = res.type(req.get('Content-Type'));
+            res.status(200).send({success: true, msg: 'movie updated'});
         }
         var o = getJSONObjectForMovieRequirement(req);
         res.json(o);
