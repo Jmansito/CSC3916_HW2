@@ -15,12 +15,12 @@ let login_details = {
 }
 
 describe('Register, Login and Call Test Collection with Basic Auth and JWT Auth', () => {
-    beforeEach((done ) => { //Before each test initialize the database to empty
+    beforeEach((done) => { //Before each test initialize the database to empty
         db.userList = [];
         done();
     })
 
-    after((done) => { // After this test suite empty the database
+    after((done) => { //after this test suite empty the database
         db.userList = [];
         done();
     })
@@ -43,6 +43,7 @@ describe('Register, Login and Call Test Collection with Basic Auth and JWT Auth'
                             res.body.should.have.property('token');
 
                             let token = res.body.token;
+                            //console.log('got token ' + token)
                             //lets call a protected API
                             chai.request(server)
                                 .put('/testcollection')
@@ -62,8 +63,8 @@ describe('Register, Login and Call Test Collection with Basic Auth and JWT Auth'
         it('delete requires basic auth failed login', (done) => {
             chai.request(server)
                 .delete('/testcollection')
-                .auth('cu-user', 'cu_rulez1')
-                .send({echo: '' })
+                .auth('cu_user', 'cu_rulez1')
+                .send({ echo: '' })
                 .end((err, res) => {
                     res.should.have.status(401);
                     done();
