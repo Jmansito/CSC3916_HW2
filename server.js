@@ -94,7 +94,7 @@ router.route('/testcollection')
     }
     );
 
-app.use('/Users/mansito/WebstormProjects/CSC3916_HW2', router);
+app.use('/', router);
 app.listen(process.env.PORT || 8080);
 module.exports = app; // for testing only
 
